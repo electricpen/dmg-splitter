@@ -25,11 +25,33 @@ class Character {
     }
   }
 
+  removeTHP() {
+    this.THP = 0;
+  }
+
   heal(amount) {
     if (amount > this.totalHP - this.currentHP) {
       this.currentHP = this.totalHP;
     } else {
       this.currentHP += amount;
+    }
+  }
+
+  damage(amount, resist) {
+    if (resist) {
+      amount -= resist;
+    } else {
+      amount -= this.dr;
+    }
+    if (this.THP > 0) {
+      if (amount < this.THP) {
+        this.THP -= amount;
+      } else {
+        amount -= this.THP;
+        this.THP = 0;
+      }
+    } else {
+      this.currentHP -= amount;
     }
   }
 }
