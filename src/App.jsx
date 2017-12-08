@@ -27,9 +27,18 @@ class App extends React.Component {
     this.Lucy.addShareTarget('Liliya', 'liliya');
   }
 
-  applyDamage(amount, target) {
+  // todo wrap all class manipulation in a class "Do" so we can pass it as one parameter
+  // ex. Do.damage()
+
+  applyDamage(amount, target, resist) {
     // todo damage calc
   }
+
+  heal(amount, target) {
+    // todo heal
+  }
+
+  
 
   logDamage(string) {
     this.damageHistory.push(string);
@@ -38,9 +47,9 @@ class App extends React.Component {
   render() {
     return 
     <div>
-      <CharacterCard character={this.Liliya}/>
-      <CharacterCard character={this.liliya}/>
-      <CharacterCard character={this.Lucy}/>
+      <CharacterCard character={this.Liliya} damage={this.applyDamage}/>
+      <CharacterCard character={this.liliya} damage={this.applyDamage}/>
+      <CharacterCard character={this.Lucy} damage={this.applyDamage}/>
       <CombatLog Logs = {this.damageHistory}/> 
     </div>
   }
