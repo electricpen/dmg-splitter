@@ -1,4 +1,4 @@
-class character {
+class Character {
   constructor(name, hp, dr) {
     this.name = name;
     this.totalHP = hp;
