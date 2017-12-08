@@ -3,6 +3,7 @@ class Character {
     this.name = name;
     this.totalHP = hp;
     this.currentHP = hp;
+    this.THP = 0;
     this.dr = dr;
     this.shareList = [];
   }
@@ -12,6 +13,23 @@ class Character {
   }
 
   addShareTarget(name) {
-    this.shareList.push(name);
+    list = Array.from(arguments);
+    for (name of list) {
+      this.shareList.push(name);
+    }
+  }
+
+  setTHP(amount) {
+    if (amount > this.THP) {
+      this.THP = amount;
+    }
+  }
+
+  heal(amount) {
+    if (amount > this.totalHP - this.currentHP) {
+      this.currentHP = this.totalHP;
+    } else {
+      this.currentHP += amount;
+    }
   }
 }
