@@ -39,15 +39,25 @@ class App extends React.Component {
         shared: Math.floor(dmg / 2),
         taken: Math.ceil(dmg / 2)
       }
-    }
+    };
     let clone = {...this.state[target]};
-    let painBuddies = [...clone.shareList];
-    damage = split(amount);
-    while (painBuddies.length > 0) {
-      applyDamage(dmgDivided, painBuddies[0], resist);
-      painBuddies.shift();
-
+    if (resist) {
+      if (amount <= resist) {
+        return;
+      }
+    } else {
+      if (amount <= clone.dr) {
+        return;
+      }
     }
+    let painBuddies = [...clone.shareList];
+    let damage = {};
+    while (painBuddies.length > 0) {
+      damage = split(amount);
+      applyDamage(damage.shared, painBuddies[0], resist);
+      painBuddies.shift();
+    }
+    clone.damage(damage.taken, resist);
   }
 
   heal(amount, target) {
