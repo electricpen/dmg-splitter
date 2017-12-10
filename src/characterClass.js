@@ -13,7 +13,7 @@ class Character {
   }
 
   addShareTarget(name) {
-    list = Array.from(arguments);
+    let list = Array.from(arguments);
     for (name of list) {
       this.shareList.push(name);
     }
