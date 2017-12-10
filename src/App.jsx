@@ -61,7 +61,11 @@ class App extends React.Component {
   }
 
   heal(amount, target) {
-    // todo heal
+    let clone = this.state[target];
+    clone.heal(amount);
+    this.setState({
+      [target]: clone,
+    })
   }
 
   applyTHP(amount, target) {
