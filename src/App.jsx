@@ -45,19 +45,20 @@ class App extends React.Component {
       if (amount <= resist) {
         return;
       }
-    } else {
-      if (amount <= clone.dr) {
+    } else if (amount <= clone.dr) {
         return;
+    } else {
+      let painBuddies = [...clone.shareList];
+      let damage = {};
+      while (painBuddies.length > 0) {
+        damage = split(amount);
+        this.logDamage(`${amount} damage split between ${target} and ${painBuddies[0]}`);
+        applyDamage(damage.shared, painBuddies[0], resist);
+        painBuddies.shift();
       }
+      clone.damage(damage.taken, resist);
+      this.logDamage(`${damage.taken - (resist || clone.dr)} damage taken by ${target}`)
     }
-    let painBuddies = [...clone.shareList];
-    let damage = {};
-    while (painBuddies.length > 0) {
-      damage = split(amount);
-      applyDamage(damage.shared, painBuddies[0], resist);
-      painBuddies.shift();
-    }
-    clone.damage(damage.taken, resist);
   }
 
   heal(amount, target) {
