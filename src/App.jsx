@@ -13,6 +13,9 @@ class App extends React.Component {
     };
 
     this.logDamage = this.logDamage.bind(this);
+    this.applyDamage = this.applyDamage.bind(this);
+    this.heal = this.heal.bind(this);
+
   }
 
   
@@ -31,14 +34,33 @@ class App extends React.Component {
   // ex. Do.damage()
 
   applyDamage(amount, target, resist) {
-    // todo damage calc
+    const split = (dmg) => {
+      return {
+        shared: Math.floor(dmg / 2),
+        taken: Math.ceil(dmg / 2)
+      }
+    }
+    let clone = {...this.state[target]};
+    let painBuddies = [...clone.shareList];
+    damage = split(amount);
+    while (painBuddies.length > 0) {
+      applyDamage(dmgDivided, painBuddies[0], resist);
+      painBuddies.shift();
+
+    }
   }
 
   heal(amount, target) {
     // todo heal
   }
 
-  
+  applyTHP(amount, target) {
+    let clone = {...this.state[target]};
+    clone.setTHP(amount);
+    this.setState({
+      [target]: clone
+    })
+  }  
 
   logDamage(string) {
     this.damageHistory.push(string);
