@@ -144,7 +144,8 @@ class App extends React.Component {
       damageHistory: temp
     });
   }
-
+  // TODO: pass state manipulation functions to card components
+  // TODO: iteratatively render character cards
   render() {
     return (
       <div>

@@ -1,5 +1,5 @@
 import React from "react";
-
+// TODO: add form input fields for THP, damage, and heals
 const CharacterCard = props => (
   <div>
     <span>{props.character.name + " "}</span>
