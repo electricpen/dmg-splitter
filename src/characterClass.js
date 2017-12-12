@@ -1,4 +1,4 @@
-class Character {
+export class Character {
   constructor(name, hp, dr) {
     this.name = name;
     this.totalHP = hp;
@@ -43,15 +43,17 @@ class Character {
     } else {
       amount -= this.dr;
     }
-    if (this.THP > 0) {
-      if (amount < this.THP) {
-        this.THP -= amount;
+    if (amount > 0) {
+      if (this.THP > 0) {
+        if (amount < this.THP) {
+          this.THP -= amount;
+        } else {
+          amount -= this.THP;
+          this.THP = 0;
+        }
       } else {
-        amount -= this.THP;
-        this.THP = 0;
+        this.currentHP -= amount;
       }
-    } else {
-      this.currentHP -= amount;
     }
   }
 }

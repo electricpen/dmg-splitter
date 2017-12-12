@@ -1,64 +1,7 @@
 import React from "react";
 import CharacterCard from "./CharacterCard";
 import CombatLog from "./CombatLog";
-// import "./characterClass";
-class Character {
-  constructor(name, hp, dr) {
-    this.name = name;
-    this.totalHP = hp;
-    this.currentHP = hp;
-    this.THP = 0;
-    this.dr = dr;
-    this.shareList = [];
-  }
-
-  setDR(dr) {
-    this.dr = dr;
-  }
-
-  addShareTarget(name) {
-    let list = Array.from(arguments);
-    for (name of list) {
-      this.shareList.push(name);
-    }
-  }
-
-  setTHP(amount) {
-    if (amount > this.THP) {
-      this.THP = amount;
-    }
-  }
-
-  removeTHP() {
-    this.THP = 0;
-  }
-
-  heal(amount) {
-    if (amount > this.totalHP - this.currentHP) {
-      this.currentHP = this.totalHP;
-    } else {
-      this.currentHP += amount;
-    }
-  }
-
-  damage(amount, resist) {
-    if (resist) {
-      amount -= resist;
-    } else {
-      amount -= this.dr;
-    }
-    if (this.THP > 0) {
-      if (amount < this.THP) {
-        this.THP -= amount;
-      } else {
-        amount -= this.THP;
-        this.THP = 0;
-      }
-    } else {
-      this.currentHP -= amount;
-    }
-  }
-}
+import { Character } from "./characterClass";
 
 class App extends React.Component {
   constructor(props) {
@@ -96,7 +39,10 @@ class App extends React.Component {
         taken: Math.ceil(dmg / 2)
       };
     };
-    let clone = { ...this.state[target] };
+    let clone = Object.assign(
+      Object.create(Object.getPrototypeOf(this.state[target])),
+      this.state[target]
+    );
     if (resist) {
       if (amount <= resist) {
         return;
@@ -115,9 +61,11 @@ class App extends React.Component {
         painBuddies.shift();
       }
       clone.damage(damage.taken, resist);
-      this.logDamage(
-        `${damage.taken - (resist || clone.dr)} damage taken by ${target}`
-      );
+      let displayDMG =
+        damage.taken > (resist || clone.dr)
+          ? damage.taken - (resist || clone.dr)
+          : 0;
+      this.logDamage(`${displayDMG} damage taken by ${target}`);
     }
   }
 
