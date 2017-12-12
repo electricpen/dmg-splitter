@@ -43,10 +43,8 @@ class App extends React.Component {
       Object.create(Object.getPrototypeOf(this.state[target])),
       this.state[target]
     );
-    if (resist) {
-      if (amount <= resist) {
-        return;
-      }
+    if (amount <= resist) {
+      return;
     } else if (amount <= clone.dr) {
       return;
     } else {
@@ -104,6 +102,7 @@ class App extends React.Component {
       }
       return result;
     };
+
     let temp = [...this.state.damageHistory];
     temp.push(string);
     temp = await process(temp);

@@ -3,9 +3,14 @@ import React from "react";
 const CharacterCard = props => {
   const handleClick = event => {
     event.preventDefault();
+    let resist = event.target.elements.resist.value;
+    if (resist === "") {
+      resist = undefined;
+    }
     props.damage(
       parseInt(event.target.elements.damage.value, 10),
-      props.character.name
+      props.character.name,
+      resist
     );
   };
 
@@ -19,6 +24,8 @@ const CharacterCard = props => {
       <span>THP: {" " + props.character.THP}</span>
       <span>
         <form onSubmit={handleClick}>
+          Resists:
+          <input type="text" name="resist" />
           Amount:
           <input type="text" name="damage" />
           <input type="submit" value="apply" />
