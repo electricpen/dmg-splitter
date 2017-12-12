@@ -32,14 +32,14 @@ class App extends React.Component {
   // todo wrap all class manipulation in a class "Do" so we can pass it as one parameter
   // ex. Do.damage()
 
-  applyDamage(amount, target, resist) {
+  async applyDamage(amount, target, resist) {
     const split = dmg => {
       return {
         shared: Math.floor(dmg / 2),
         taken: Math.ceil(dmg / 2)
       };
     };
-    let clone = Object.assign(
+    let clone = await Object.assign(
       Object.create(Object.getPrototypeOf(this.state[target])),
       this.state[target]
     );
@@ -54,16 +54,18 @@ class App extends React.Component {
       let damage = { taken: amount };
       for (let buddy of painBuddies) {
         damage = split(damage.taken);
-        this.logDamage(`${amount} damage split between ${target} and ${buddy}`);
-        this.applyDamage(damage.shared, buddy, resist);
+        // await this.logDamage(
+        //   `${amount} damage split between ${target} and ${buddy}`
+        // );
+        await this.applyDamage(damage.shared, buddy, resist);
       }
-      clone.damage(damage.taken, resist);
+      await clone.damage(damage.taken, resist);
       let displayDMG =
         damage.taken > (resist || clone.dr)
           ? damage.taken - (resist || clone.dr)
           : 0;
-      console.log(`${clone.name} has taken ${displayDMG} points of damage!`);
-      this.logDamage(`${displayDMG} damage taken by ${target}`);
+      // console.log(`${clone.name} has taken ${displayDMG} points of damage!`);
+      await this.logDamage(`${displayDMG} damage taken by ${target}`);
     }
   }
 
@@ -83,9 +85,28 @@ class App extends React.Component {
     });
   }
 
-  logDamage(string) {
+  async logDamage(string) {
+    const process = logs => {
+      let result = [];
+      let compiledLog = {
+        Liliya: 0,
+        liliya: 0,
+        Lucy: 0
+      };
+      for (let log of logs) {
+        let words = log.split(" ");
+        const damage = parseInt(words[0], 10);
+        const name = words[words.length - 1];
+        compiledLog[name] += damage;
+      }
+      for (let name in compiledLog) {
+        result.push(`${compiledLog[name]} damage taken by ${name}`);
+      }
+      return result;
+    };
     let temp = [...this.state.damageHistory];
     temp.push(string);
+    temp = await process(temp);
     this.setState({
       damageHistory: temp
     });
