@@ -51,20 +51,18 @@ class App extends React.Component {
       return;
     } else {
       let painBuddies = [...clone.shareList];
-      let damage = {};
-      while (painBuddies.length > 0) {
-        damage = split(amount);
-        this.logDamage(
-          `${amount} damage split between ${target} and ${painBuddies[0]}`
-        );
-        this.applyDamage(damage.shared, painBuddies[0], resist);
-        painBuddies.shift();
+      let damage = { taken: amount };
+      for (let buddy of painBuddies) {
+        damage = split(damage.taken);
+        this.logDamage(`${amount} damage split between ${target} and ${buddy}`);
+        this.applyDamage(damage.shared, buddy, resist);
       }
       clone.damage(damage.taken, resist);
       let displayDMG =
         damage.taken > (resist || clone.dr)
           ? damage.taken - (resist || clone.dr)
           : 0;
+      console.log(`${clone.name} has taken ${displayDMG} points of damage!`);
       this.logDamage(`${displayDMG} damage taken by ${target}`);
     }
   }
