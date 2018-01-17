@@ -47,7 +47,7 @@ class App extends React.Component {
       return;
     } else if (amount <= clone.dr) {
       return;
-    } else {
+    } else if (amount > 1) {
       let painBuddies = [...clone.shareList];
       let damage = { taken: amount };
       for (let buddy of painBuddies) {
@@ -63,6 +63,9 @@ class App extends React.Component {
           ? damage.taken - (resist || clone.dr)
           : 0;
       // console.log(`${clone.name} has taken ${displayDMG} points of damage!`);
+      await this.logDamage(`${displayDMG} damage taken by ${target}`);
+    } else {
+      let displayDMG = amount;
       await this.logDamage(`${displayDMG} damage taken by ${target}`);
     }
   }

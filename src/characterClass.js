@@ -38,7 +38,7 @@ export class Character {
   }
 
   damage(amount, resist) {
-    if (resist) {
+    if (resist !== undefined) {
       amount -= resist;
     } else {
       amount -= this.dr;
@@ -57,3 +57,10 @@ export class Character {
     }
   }
 }
+
+/*
+  100 =
+  L 25 25 
+  l 13
+  c 25 12
+*/
